@@ -1,0 +1,226 @@
+[
+  {
+    "id": 5,
+    "name": "Alter Ego",
+    "shortName": "ALTER",
+    "seed": 5,
+    "logo": ""
+  },
+  {
+    "id": 6,
+    "name": "Geek Fam ID",
+    "shortName": "GEEK",
+    "seed": 6,
+    "logo": ""
+  },
+  {
+    "id": 7,
+    "name": "Rebellion",
+    "shortName": "REBELLION",
+    "seed": 7,
+    "logo": ""
+  },
+  {
+    "id": 8,
+    "name": "Dewa United",
+    "shortName": "DEWA",
+    "seed": 8,
+    "logo": ""
+  },
+  {
+    "id": 9,
+    "name": "Team Liquid ID",
+    "shortName": "TEAM",
+    "seed": 9,
+    "logo": ""
+  },
+  {
+    "id": 10,
+    "name": "Fnatic ONIC",
+    "shortName": "FNATIC",
+    "seed": 10,
+    "logo": ""
+  },
+  {
+    "id": 11,
+    "name": "Kelas 10 RPL 3",
+    "shortName": "K11",
+    "seed": 11,
+    "logo": ""
+  },
+  {
+    "id": 12,
+    "name": "Kelas 10 RPL 1",
+    "shortName": "K12",
+    "seed": 12,
+    "logo": ""
+  },
+  {
+    "id": 13,
+    "name": "Kelas 10 RPL 2",
+    "shortName": "K13",
+    "seed": 13,
+    "logo": ""
+  },
+  {
+    "id": 14,
+    "name": "Kelas 10 RPL 3",
+    "shortName": "K14",
+    "seed": 14,
+    "logo": ""
+  },
+  {
+    "id": 15,
+    "name": "Kelas 10 RPL 1",
+    "shortName": "K15",
+    "seed": 15,
+    "logo": ""
+  },
+  {
+    "id": 16,
+    "name": "Kelas 10 RPL 2",
+    "shortName": "K16",
+    "seed": 16,
+    "logo": ""
+  },
+  {
+    "id": 17,
+    "name": "Kelas 11 RPL 3",
+    "shortName": "K17",
+    "seed": 17,
+    "logo": ""
+  },
+  {
+    "id": 18,
+    "name": "Kelas 11 RPL 1",
+    "shortName": "K18",
+    "seed": 18,
+    "logo": ""
+  },
+  {
+    "id": 19,
+    "name": "Kelas 11 RPL 2",
+    "shortName": "K19",
+    "seed": 19,
+    "logo": ""
+  },
+  {
+    "id": 20,
+    "name": "Kelas 11 RPL 3",
+    "shortName": "K20",
+    "seed": 20,
+    "logo": ""
+  },
+  {
+    "id": 21,
+    "name": "Kelas 11 RPL 1",
+    "shortName": "K21",
+    "seed": 21,
+    "logo": ""
+  },
+  {
+    "id": 22,
+    "name": "Kelas 11 RPL 2",
+    "shortName": "K22",
+    "seed": 22,
+    "logo": ""
+  },
+  {
+    "id": 23,
+    "name": "Kelas 12 RPL 3",
+    "shortName": "K23",
+    "seed": 23,
+    "logo": ""
+  },
+  {
+    "id": 24,
+    "name": "Kelas 12 RPL 1",
+    "shortName": "K24",
+    "seed": 24,
+    "logo": ""
+  },
+  {
+    "id": 25,
+    "name": "Kelas 12 RPL 2",
+    "shortName": "K25",
+    "seed": 25,
+    "logo": ""
+  },
+  {
+    "id": 26,
+    "name": "Kelas 12 RPL 3",
+    "shortName": "K26",
+    "seed": 26,
+    "logo": ""
+  },
+  {
+    "id": 27,
+    "name": "Kelas 12 RPL 1",
+    "shortName": "K27",
+    "seed": 27,
+    "logo": ""
+  },
+  {
+    "id": 28,
+    "name": "Kelas 12 RPL 2",
+    "shortName": "K28",
+    "seed": 28,
+    "logo": ""
+  },
+  {
+    "id": 29,
+    "name": "Kelas 13 RPL 3",
+    "shortName": "K29",
+    "seed": 29,
+    "logo": ""
+  },
+  {
+    "id": 30,
+    "name": "Kelas 13 RPL 1",
+    "shortName": "K30",
+    "seed": 30,
+    "logo": ""
+  },
+  {
+    "id": 31,
+    "name": "Kelas 13 RPL 2",
+    "shortName": "K31",
+    "seed": 31,
+    "logo": ""
+  },
+  {
+    "id": 32,
+    "name": "Kelas 13 RPL 3",
+    "shortName": "K32",
+    "seed": 32,
+    "logo": ""
+  },
+  {
+    "id": 33,
+    "name": "Kelas 13 RPL 1",
+    "shortName": "K33",
+    "seed": 33,
+    "logo": ""
+  },
+  {
+    "id": 34,
+    "name": "Kelas 13 RPL 2",
+    "shortName": "K34",
+    "seed": 34,
+    "logo": ""
+  },
+  {
+    "id": 35,
+    "name": "Kelas 14 RPL 3",
+    "shortName": "K35",
+    "seed": 35,
+    "logo": ""
+  },
+  {
+    "id": 36,
+    "name": "Kelas 14 RPL 1",
+    "shortName": "K36",
+    "seed": 36,
+    "logo": ""
+  }
+]

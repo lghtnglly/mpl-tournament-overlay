@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Arena - OBS Overlays</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <%- include('partials/sidebar', { activePage: 'obs', teamCount: teams.length }) %>
+
+    <div class="main-wrapper">
+      <%- include('partials/topbar', { 
+        pageTitle: 'OBS Web Source Overlays', 
+        pageSubtitle: 'Dedicated transparent browser sources untuk nama & logo tim di OBS Studio' 
+      }) %>
+
+      <div class="content-area">
+        <div class="bento-grid">
+          <!-- Item 1 -->
+          <div class="bento-card" style="grid-column: span 6;">
+            <div class="card-header">
+              <div class="card-title">1. Nama Tim Kiri (Overlay)</div>
+              <span class="card-action-btn">Font: Poppins Bold</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Transparan 100%, tanpa background, tanpa efek tambahan. Pasang link ini sebagai Browser Source di OBS Studio.</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <code style="color: var(--accent-mint); font-size: 0.8rem;">http://localhost:3000/overlay/team-left-name</code>
+              <div style="display: flex; gap: 8px;">
+                <a href="/overlay/team-left-name" target="_blank" class="card-action-btn">Preview</a>
+                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="navigator.clipboard.writeText('http://localhost:3000/overlay/team-left-name'); alert('Copied!');">Salin URL</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="bento-card" style="grid-column: span 6;">
+            <div class="card-header">
+              <div class="card-title">2. Nama Tim Kanan (Overlay)</div>
+              <span class="card-action-btn">Font: Poppins Bold</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Transparan 100%, tanpa background, tanpa efek tambahan. Pasang link ini sebagai Browser Source di OBS Studio.</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <code style="color: var(--accent-mint); font-size: 0.8rem;">http://localhost:3000/overlay/team-right-name</code>
+              <div style="display: flex; gap: 8px;">
+                <a href="/overlay/team-right-name" target="_blank" class="card-action-btn">Preview</a>
+                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="navigator.clipboard.writeText('http://localhost:3000/overlay/team-right-name'); alert('Copied!');">Salin URL</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="bento-card" style="grid-column: span 6;">
+            <div class="card-header">
+              <div class="card-title">3. Logo Tim Kiri (Overlay)</div>
+              <span class="card-action-btn">Transparent Canvas</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Hanya menampilkan file logo murni dari tim sisi kiri secara transparan.</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <code style="color: var(--accent-mint); font-size: 0.8rem;">http://localhost:3000/overlay/team-left-logo</code>
+              <div style="display: flex; gap: 8px;">
+                <a href="/overlay/team-left-logo" target="_blank" class="card-action-btn">Preview</a>
+                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="navigator.clipboard.writeText('http://localhost:3000/overlay/team-left-logo'); alert('Copied!');">Salin URL</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="bento-card" style="grid-column: span 6;">
+            <div class="card-header">
+              <div class="card-title">4. Logo Tim Kanan (Overlay)</div>
+              <span class="card-action-btn">Transparent Canvas</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Hanya menampilkan file logo murni dari tim sisi kanan secara transparan.</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <code style="color: var(--accent-mint); font-size: 0.8rem;">http://localhost:3000/overlay/team-right-logo</code>
+              <div style="display: flex; gap: 8px;">
+                <a href="/overlay/team-right-logo" target="_blank" class="card-action-btn">Preview</a>
+                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="navigator.clipboard.writeText('http://localhost:3000/overlay/team-right-logo'); alert('Copied!');">Salin URL</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
