@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>OBS - Team Right Logo</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .obs-logo-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .obs-team-logo {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .obs-empty {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="obs-logo-container">
+    <img class="obs-team-logo obs-empty" id="display-logo" src="" alt="Right Logo">
+  </div>
+
+  <script src="/js/app-config.js"></script>
+  <script>
+    async function updateOverlay() {
+      let match = await window.firebaseRest.get('currentMatch');
+      if (!match) {
+        try {
+          const localTour = JSON.parse(localStorage.getItem('mpl_tournament') || '{}');
+          match = localTour.currentMatch;
+        } catch (e) {}
+      }
+
+      const imgEl = document.getElementById('display-logo');
+      if (match && match.teamRight && match.teamRight.logo) {
+        if (imgEl.src !== match.teamRight.logo) {
+          imgEl.src = match.teamRight.logo;
+          imgEl.classList.remove('obs-empty');
+        }
+      } else {
+        imgEl.classList.add('obs-empty');
+      }
+    }
+
+    setInterval(updateOverlay, 1000);
+    updateOverlay();
+  </script>
+</body>
+</html>

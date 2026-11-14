@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Arena - Bagan Bracket Turnamen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/bracket.css">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <%- include('partials/sidebar', { activePage: 'bracket', teamCount: teams.length }) %>
+
+    <div class="main-wrapper">
+      <%- include('partials/topbar', { 
+        pageTitle: 'Bagan Bracket Turnamen (Full View)', 
+        pageSubtitle: 'Single Elimination 36 Tim: BO1 Penyisihan s.d. Semifinal, BO3 Grand Final' 
+      }) %>
+
+      <div class="content-area">
+        <div class="bento-card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-mint);">
+                <line x1="6" y1="3" x2="6" y2="15"></line>
+                <circle cx="18" cy="6" r="3"></circle>
+                <circle cx="6" cy="18" r="3"></circle>
+                <path d="M18 9a9 9 0 0 1-9 9"></path>
+              </svg>
+              Tournament Elimination Tree
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <button class="btn-secondary" onclick="regenerateBracket()">Acak & Generate Bagan Ulang</button>
+              <a href="/" class="btn-primary">Kembali ke Match Control</a>
+            </div>
+          </div>
+
+          <!-- Bracket Scroll Area -->
+          <div class="bracket-scroll-container">
+            <% (tournament.rounds || []).forEach((round, rIdx) => { %>
+              <div class="bracket-round-col">
+                <div class="bracket-round-header">
+                  <h4><%= round.roundName %></h4>
+                  <span><%= round.matches[0] ? round.matches[0].format : 'BO1' %></span>
+                </div>
+
+                <div class="bracket-round-matches">
+                  <% round.matches.forEach(match => { %>
+                    <% if (!match.isBye) { %>
+                      <div class="match-node <%= tournament.currentMatch && tournament.currentMatch.id === match.id ? 'active-match' : '' %>" 
+                           data-match-id="<%= match.id %>"
+                           onclick="selectMatch('<%= match.id %>')">
+                        <div class="match-node-header">
+                          <span>MATCH #<%= match.matchNumber %></span>
+                          <span style="color: <%= match.status === 'COMPLETED' ? 'var(--accent-mint)' : 'var(--text-muted)' %>">
+                            <%= match.status === 'COMPLETED' ? 'SELESAI' : 'TERJADWAL' %>
+                          </span>
+                        </div>
+
+                        <div class="match-team-row <%= match.winner && match.teamLeft && match.winner.id === match.teamLeft.id ? 'winner' : '' %>">
+                          <div class="match-team-info">
+                            <span style="color: var(--text-muted); font-size: 0.72rem;">#<%= match.teamLeft?.seed || '-' %></span>
+                            <span style="font-weight: 600;"><%= match.teamLeft ? match.teamLeft.name : 'TBD' %></span>
+                          </div>
+                          <span class="match-team-score"><%= match.scoreLeft || 0 %></span>
+                        </div>
+
+                        <div class="match-team-row <%= match.winner && match.teamRight && match.winner.id === match.teamRight.id ? 'winner' : '' %>">
+                          <div class="match-team-info">
+                            <span style="color: var(--text-muted); font-size: 0.72rem;">#<%= match.teamRight?.seed || '-' %></span>
+                            <span style="font-weight: 600;"><%= match.teamRight ? match.teamRight.name : 'TBD' %></span>
+                          </div>
+                          <span class="match-team-score"><%= match.scoreRight || 0 %></span>
+                        </div>
+                      </div>
+                    <% } %>
+                  <% }) %>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/matchControl.js"></script>
+</body>
+</html>

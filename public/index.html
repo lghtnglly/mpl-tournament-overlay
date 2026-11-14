@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Arena - Dashboard Turnamen (Cloudflare Edition)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/bracket.css">
+  <style>
+    .obs-link-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      transition: all 0.2s ease;
+    }
+    .obs-link-row:hover {
+      border-color: rgba(91, 84, 246, 0.4);
+      background: rgba(91, 84, 246, 0.05);
+    }
+    .obs-link-label {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .obs-link-url {
+      font-family: monospace;
+      font-size: 0.76rem;
+      color: var(--accent-mint);
+      margin-top: 3px;
+    }
+    .btn-copy {
+      background: rgba(91, 84, 246, 0.2);
+      border: 1px solid rgba(91, 84, 246, 0.4);
+      color: #C3BEFF;
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-copy:hover {
+      background: var(--accent-primary);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand-container">
+        <div class="brand-logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">MLBB Arena</div>
+          <div class="brand-sub">Cloudflare Edition</div>
+        </div>
+      </div>
+
+      <div class="nav-section-title">Tournament Ops</div>
+      <ul class="nav-menu">
+        <li class="nav-item active">
+          <a href="/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Match Control</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/teams/index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>Manajemen Tim</span>
+            <span class="nav-badge" id="sidebar-team-count">0</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-status">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span>CLOUDFLARE 24H</span>
+        </div>
+        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 6px;">
+          Firebase Cloud Connected
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1>Match Control Center</h1>
+          <p>Cloudflare Pages + Firebase Realtime Database 24 Jam Nonstop</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="topbar-badge">
+            <span id="live-clock">--:--:--</span>
+          </div>
+          <div class="topbar-badge" style="background: rgba(0, 230, 163, 0.12); border-color: rgba(0, 230, 163, 0.3); color: var(--accent-mint);">
+            <span class="status-dot"></span>
+            <span>CLOUDFLARE READY</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <div class="bento-grid">
+          
+          <!-- BENTO CARD 1: ACTIVE MATCH SHOWCASE (Col Span 7) -->
+          <div class="bento-card" style="grid-column: span 7;">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="status-dot"></span>
+                Active Match on Broadcast
+              </div>
+              <span class="topbar-badge" id="round-badge" style="background: rgba(91, 84, 246, 0.2);">
+                BO1 &bull; Babak Penyisihan
+              </span>
+            </div>
+
+            <!-- Active Match Container -->
+            <div class="active-showcase-container">
+              <!-- Left Team -->
+              <div class="team-showcase-card">
+                <div class="team-avatar-box blue-side" id="logo-left">
+                  <span class="placeholder-abbr" id="abbr-left">T1</span>
+                </div>
+                <h3 id="name-left" style="font-size: 1.15rem; font-weight: 700; color: #fff; text-align: center; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  Team Left
+                </h3>
+                <span style="font-size: 0.75rem; color: #8C84FE; background: rgba(91, 84, 246, 0.15); padding: 3px 12px; border-radius: 20px; font-weight: 600;">
+                  BLUE SIDE
+                </span>
+              </div>
+
+              <!-- Center VS & Score -->
+              <div class="showcase-center">
+                <div id="match-number-text" style="font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 8px;">
+                  MATCH 1
+                </div>
+                <div class="score-display">
+                  <span class="score-num" id="score-left">0</span>
+                  <span class="score-colon">:</span>
+                  <span class="score-num" id="score-right">0</span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 8px; font-weight: 500;">
+                  Best of 1
+                </div>
+              </div>
+
+              <!-- Right Team -->
+              <div class="team-showcase-card">
+                <div class="team-avatar-box red-side" id="logo-right">
+                  <span class="placeholder-abbr" id="abbr-right">T2</span>
+                </div>
+                <h3 id="name-right" style="font-size: 1.15rem; font-weight: 700; color: #fff; text-align: center; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  Team Right
+                </h3>
+                <span style="font-size: 0.75rem; color: #FFA5C3; background: rgba(255, 77, 137, 0.15); padding: 3px 12px; border-radius: 20px; font-weight: 600;">
+                  RED SIDE
+                </span>
+              </div>
+            </div>
+
+            <!-- Match status footer info -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                Pemenang: <strong style="color: var(--accent-mint);" id="winner-text">Belum Selesai</strong>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="card-action-btn" onclick="prevMatch()">&larr; Prev Match</button>
+                <button class="card-action-btn" onclick="nextMatch()">Next Match &rarr;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- BENTO CARD 2: MATCH CONTROL PANEL (Col Span 5) -->
+          <div class="bento-card" style="grid-column: span 5; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="card-header">
+                <div class="card-title">Match Control Panel</div>
+                <span class="card-action-btn" onclick="seedDefaultTeams()">Isi 36 Tim</span>
+              </div>
+
+              <div class="control-btn-grid" style="margin-top: 10px;">
+                <button class="btn-ctrl btn-swap" onclick="swapTeam()">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"></path></svg>
+                    <span>Swap Team (Kiri &harr; Kanan)</span>
+                  </div>
+                </button>
+
+                <button class="btn-ctrl btn-win-left" onclick="setWinner('left')">
+                  <span>Win Left Team</span>
+                </button>
+
+                <button class="btn-ctrl btn-win-right" onclick="setWinner('right')">
+                  <span>Win Right Team</span>
+                </button>
+
+                <button class="btn-ctrl btn-next-match" onclick="nextMatch()">
+                  <span>Next Match &rarr;</span>
+                </button>
+              </div>
+            </div>
+
+            <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--card-border); font-size: 0.8rem; color: var(--text-secondary);">
+              Status: <span style="color: var(--accent-mint);">Tersinkron Otomatis ke Firebase</span>
+            </div>
+          </div>
+
+          <!-- BENTO CARD 3: FIREBASE CLOUD CONFIG (Col Span 12) -->
+          <div class="bento-card" style="grid-column: span 12; background: rgba(0,0,0,0.25);">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #FFA000;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Pengaturan Firebase Realtime Database
+              </div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="text" id="firebase-url-input" class="form-control" style="font-family: monospace; font-size: 0.85rem;" placeholder="https://projek-anda-default-rtdb.firebaseio.com">
+              <button class="btn-primary" style="white-space: nowrap;" onclick="saveFirebaseUrl()">Simpan Firebase URL</button>
+            </div>
+          </div>
+
+          <!-- BENTO CARD 4: OBS LINKS DEDICATED (Col Span 12) -->
+          <div class="bento-card" style="grid-column: span 12;">
+            <div class="card-header">
+              <div class="card-title">OBS Browser Source Dedicated Links (100% Transparan &bull; Poppins Bold 700)</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
+              <div class="obs-link-row">
+                <div>
+                  <div class="obs-link-label">Nama Tim Kiri (Overlay)</div>
+                  <div class="obs-link-url" id="link-left-name">/overlay/team-left-name.html</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <a href="/overlay/team-left-name.html" target="_blank" class="card-action-btn">Preview</a>
+                  <button class="btn-copy" onclick="copyFullUrl('/overlay/team-left-name.html')">Salin URL</button>
+                </div>
+              </div>
+
+              <div class="obs-link-row">
+                <div>
+                  <div class="obs-link-label">Nama Tim Kanan (Overlay)</div>
+                  <div class="obs-link-url" id="link-right-name">/overlay/team-right-name.html</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <a href="/overlay/team-right-name.html" target="_blank" class="card-action-btn">Preview</a>
+                  <button class="btn-copy" onclick="copyFullUrl('/overlay/team-right-name.html')">Salin URL</button>
+                </div>
+              </div>
+
+              <div class="obs-link-row">
+                <div>
+                  <div class="obs-link-label">Logo Tim Kiri (Overlay)</div>
+                  <div class="obs-link-url" id="link-left-logo">/overlay/team-left-logo.html</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <a href="/overlay/team-left-logo.html" target="_blank" class="card-action-btn">Preview</a>
+                  <button class="btn-copy" onclick="copyFullUrl('/overlay/team-left-logo.html')">Salin URL</button>
+                </div>
+              </div>
+
+              <div class="obs-link-row">
+                <div>
+                  <div class="obs-link-label">Logo Tim Kanan (Overlay)</div>
+                  <div class="obs-link-url" id="link-right-logo">/overlay/team-right-logo.html</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <a href="/overlay/team-right-logo.html" target="_blank" class="card-action-btn">Preview</a>
+                  <button class="btn-copy" onclick="copyFullUrl('/overlay/team-right-logo.html')">Salin URL</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app-config.js"></script>
+  <script>
+    // State lokal default
+    let tournament = {
+      currentMatchIndex: 0,
+      currentMatch: {
+        matchNumber: 1,
+        format: 'BO1',
+        roundName: 'Babak Penyisihan',
+        teamLeft: { name: 'EVOS Legends', shortName: 'EVOS', logo: '' },
+        teamRight: { name: 'RRQ Hoshi', shortName: 'RRQ', logo: '' },
+        scoreLeft: 0,
+        scoreRight: 0,
+        winner: null
+      }
+    };
+
+    function initClock() {
+      setInterval(() => {
+        const el = document.getElementById('live-clock');
+        if (el) el.textContent = new Date().toLocaleTimeString('id-ID', { hour12: false });
+      }, 1000);
+    }
+    initClock();
+
+    document.getElementById('firebase-url-input').value = window.MPL_CONFIG.firebaseDbUrl;
+
+    function saveFirebaseUrl() {
+      const url = document.getElementById('firebase-url-input').value.trim();
+      localStorage.setItem('mpl_firebase_url', url);
+      window.MPL_CONFIG.firebaseDbUrl = url;
+      alert('URL Firebase tersimpan!');
+      syncToFirebase();
+    }
+
+    async function syncToFirebase() {
+      await window.firebaseRest.put('currentMatch', tournament.currentMatch);
+      localStorage.setItem('mpl_tournament', JSON.stringify(tournament));
+    }
+
+    async function loadFromFirebase() {
+      const match = await window.firebaseRest.get('currentMatch');
+      if (match) {
+        tournament.currentMatch = match;
+        renderMatchUI();
+      } else {
+        const local = localStorage.getItem('mpl_tournament');
+        if (local) {
+          try {
+            tournament = JSON.parse(local);
+            renderMatchUI();
+          } catch (e) {}
+        }
+      }
+    }
+
+    function renderMatchUI() {
+      const cur = tournament.currentMatch;
+      if (!cur) return;
+
+      document.getElementById('name-left').textContent = cur.teamLeft ? cur.teamLeft.name : 'TBD';
+      document.getElementById('abbr-left').textContent = cur.teamLeft ? (cur.teamLeft.shortName || 'T1') : '-';
+      document.getElementById('score-left').textContent = cur.scoreLeft || 0;
+
+      document.getElementById('name-right').textContent = cur.teamRight ? cur.teamRight.name : 'TBD';
+      document.getElementById('abbr-right').textContent = cur.teamRight ? (cur.teamRight.shortName || 'T2') : '-';
+      document.getElementById('score-right').textContent = cur.scoreRight || 0;
+
+      document.getElementById('match-number-text').textContent = 'MATCH ' + (cur.matchNumber || 1);
+      document.getElementById('round-badge').textContent = (cur.format || 'BO1') + ' • ' + (cur.roundName || 'Penyisihan');
+      document.getElementById('winner-text').textContent = cur.winner ? cur.winner.name : 'Belum Selesai';
+
+      // Logo
+      const logoL = document.getElementById('logo-left');
+      if (cur.teamLeft && cur.teamLeft.logo) {
+        logoL.innerHTML = `<img src="${cur.teamLeft.logo}" style="width:100%;height:100%;object-fit:contain;padding:8px;">`;
+      } else {
+        logoL.innerHTML = `<span class="placeholder-abbr">${cur.teamLeft ? (cur.teamLeft.shortName || 'T1') : '-'}</span>`;
+      }
+
+      const logoR = document.getElementById('logo-right');
+      if (cur.teamRight && cur.teamRight.logo) {
+        logoR.innerHTML = `<img src="${cur.teamRight.logo}" style="width:100%;height:100%;object-fit:contain;padding:8px;">`;
+      } else {
+        logoR.innerHTML = `<span class="placeholder-abbr">${cur.teamRight ? (cur.teamRight.shortName || 'T2') : '-'}</span>`;
+      }
+    }
+
+    async function swapTeam() {
+      const cur = tournament.currentMatch;
+      const tmpTeam = cur.teamLeft;
+      const tmpScore = cur.scoreLeft;
+      cur.teamLeft = cur.teamRight;
+      cur.scoreLeft = cur.scoreRight;
+      cur.teamRight = tmpTeam;
+      cur.scoreRight = tmpScore;
+
+      renderMatchUI();
+      await syncToFirebase();
+    }
+
+    async function setWinner(side) {
+      const cur = tournament.currentMatch;
+      if (side === 'left') {
+        cur.scoreLeft = 1;
+        cur.scoreRight = 0;
+        cur.winner = cur.teamLeft;
+      } else {
+        cur.scoreLeft = 0;
+        cur.scoreRight = 1;
+        cur.winner = cur.teamRight;
+      }
+      renderMatchUI();
+      await syncToFirebase();
+    }
+
+    async function nextMatch() {
+      tournament.currentMatch.matchNumber = (tournament.currentMatch.matchNumber || 1) + 1;
+      tournament.currentMatch.scoreLeft = 0;
+      tournament.currentMatch.scoreRight = 0;
+      tournament.currentMatch.winner = null;
+      renderMatchUI();
+      await syncToFirebase();
+    }
+
+    async function prevMatch() {
+      if ((tournament.currentMatch.matchNumber || 1) > 1) {
+        tournament.currentMatch.matchNumber -= 1;
+        tournament.currentMatch.scoreLeft = 0;
+        tournament.currentMatch.scoreRight = 0;
+        tournament.currentMatch.winner = null;
+        renderMatchUI();
+        await syncToFirebase();
+      }
+    }
+
+    function copyFullUrl(relPath) {
+      const full = window.location.origin + relPath;
+      navigator.clipboard.writeText(full).then(() => {
+        alert('URL disalin: ' + full);
+      });
+    }
+
+    loadFromFirebase();
+  </script>
+</body>
+</html>

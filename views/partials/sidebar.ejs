@@ -1,0 +1,91 @@
+<aside class="sidebar">
+  <div class="brand-container">
+    <div class="brand-logo-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-title">MLBB Arena</div>
+      <div class="brand-sub">Tournament OS</div>
+    </div>
+  </div>
+
+  <div class="nav-section-title">Tournament Ops</div>
+  <ul class="nav-menu">
+    <li class="nav-item <%= activePage === 'dashboard' ? 'active' : '' %>">
+      <a href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>Match Control</span>
+      </a>
+    </li>
+    <li class="nav-item <%= activePage === 'teams' ? 'active' : '' %>">
+      <a href="/teams">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>Manajemen Tim</span>
+        <span class="nav-badge" id="sidebar-team-count"><%= teamCount || 0 %></span>
+      </a>
+    </li>
+    <li class="nav-item <%= activePage === 'bracket' ? 'active' : '' %>">
+      <a href="/bracket">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="6" y1="3" x2="6" y2="15"></line>
+          <circle cx="18" cy="6" r="3"></circle>
+          <circle cx="6" cy="18" r="3"></circle>
+          <path d="M18 9a9 9 0 0 1-9 9"></path>
+        </svg>
+        <span>Bagan Bracket</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="nav-section-title">Broadcasting & OBS</div>
+  <ul class="nav-menu">
+    <li class="nav-item <%= activePage === 'obs' ? 'active' : '' %>">
+      <a href="/obs-links">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="2"></circle>
+          <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
+        </svg>
+        <span>OBS Overlays</span>
+      </a>
+    </li>
+    <li class="nav-item <%= activePage === 'cloud' ? 'active' : '' %>">
+      <a href="/cloud">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+        </svg>
+        <span>Cloud & Online</span>
+      </a>
+    </li>
+    <li class="nav-item <%= activePage === 'youtube' ? 'active' : '' %>">
+      <a href="/settings-youtube">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="23 7 16 12 23 17 23 7"></polygon>
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+        </svg>
+        <span>YouTube Sync</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="sidebar-status">
+    <div class="status-indicator">
+      <span class="status-dot"></span>
+      <span>SYSTEM READY</span>
+    </div>
+    <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 6px;">
+      Live Server Active &bull; Port 3000
+    </div>
+  </div>
+</aside>

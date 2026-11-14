@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Arena - Manajemen Tim (Cloudflare Edition)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <style>
+    .team-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .team-table th { padding: 14px 18px; font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--card-border); }
+    .team-table td { padding: 14px 18px; font-size: 0.9rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); vertical-align: middle; }
+    .form-control { width: 100%; background: #141724; border: 1px solid var(--card-border); color: #fff; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; outline: none; }
+    .batch-preview-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(91, 84, 246, 0.15); border: 1px solid rgba(91, 84, 246, 0.3); padding: 4px 10px; border-radius: 8px; font-size: 0.78rem; color: #C5BFFF; }
+  </style>
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand-container">
+        <div class="brand-logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <div>
+          <div class="brand-title">MLBB Arena</div>
+          <div class="brand-sub">Cloudflare Edition</div>
+        </div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="/"><span>Match Control</span></a></li>
+        <li class="nav-item active"><a href="/teams/index.html"><span>Manajemen Tim</span></a></li>
+      </ul>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1>Manajemen Tim (Cloud & ImageKit)</h1>
+          <p>Ketik dipisahkan Enter & Auto-Upload Logo ke ImageKit Cloud</p>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <div class="bento-grid">
+          <!-- BATCH INPUT CARD -->
+          <div class="bento-card" style="grid-column: span 12;">
+            <div class="card-header">
+              <div class="card-title">+ Input Tim Cepat (Pisahkan dengan Enter)</div>
+              <span class="card-action-btn" onclick="saveTeamsToCloud()">Simpan ke Cloud Firebase</span>
+            </div>
+
+            <textarea id="batch-input" class="form-control" rows="6" placeholder="Ketik atau paste nama tim di sini:&#10;Vortone&#10;XII RPL 1&#10;Sosial Satu&#10;Echo Knights" oninput="renderBatchPreview()"></textarea>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+              <div id="batch-preview-container" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+              <button class="btn-primary" onclick="addBatchTeams()">Tambah Tim Sekarang</button>
+            </div>
+          </div>
+
+          <!-- IMAGEKIT CONFIG CARD -->
+          <div class="bento-card" style="grid-column: span 12; background: rgba(0,0,0,0.2);">
+            <div class="card-header">
+              <div class="card-title">Kredensial ImageKit.io (Upload Logo CDN)</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+              <input type="text" id="ik-endpoint" class="form-control" placeholder="URL-Endpoint: https://ik.imagekit.io/user">
+              <input type="text" id="ik-public" class="form-control" placeholder="Public Key: public_xxx">
+              <input type="password" id="ik-private" class="form-control" placeholder="Private Key: private_xxx">
+            </div>
+            <div style="margin-top: 10px; text-align: right;">
+              <button class="btn-secondary" onclick="saveImageKitConfig()">Simpan Kredensial ImageKit</button>
+            </div>
+          </div>
+
+          <!-- TEAM ROSTER TABLE -->
+          <div class="bento-card" style="grid-column: span 12; padding: 0;">
+            <div style="padding: 18px 24px; border-bottom: 1px solid var(--card-border); font-weight: 700;">
+              Daftar Kontestan (<span id="team-count">0</span> Tim)
+            </div>
+            <table class="team-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">Slot</th>
+                  <th style="width: 80px;">Logo</th>
+                  <th>Nama Tim</th>
+                  <th>Tag (Maks 5 Karakter)</th>
+                  <th style="text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="team-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app-config.js"></script>
+  <script>
+    let teams = [];
+
+    document.getElementById('ik-endpoint').value = window.MPL_CONFIG.imagekitEndpoint;
+    document.getElementById('ik-public').value = window.MPL_CONFIG.imagekitPublicKey;
+    document.getElementById('ik-private').value = window.MPL_CONFIG.imagekitPrivateKey;
+
+    function saveImageKitConfig() {
+      const ep = document.getElementById('ik-endpoint').value.trim();
+      const pub = document.getElementById('ik-public').value.trim();
+      const priv = document.getElementById('ik-private').value.trim();
+
+      localStorage.setItem('mpl_ik_endpoint', ep);
+      localStorage.setItem('mpl_ik_public', pub);
+      localStorage.setItem('mpl_ik_private', priv);
+      window.MPL_CONFIG.imagekitEndpoint = ep;
+      window.MPL_CONFIG.imagekitPublicKey = pub;
+      window.MPL_CONFIG.imagekitPrivateKey = priv;
+      alert('Kredensial ImageKit tersimpan!');
+    }
+
+    function renderBatchPreview() {
+      const lines = document.getElementById('batch-input').value.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const container = document.getElementById('batch-preview-container');
+      container.innerHTML = lines.map(line => {
+        const tag = window.generateShortTag(line);
+        return `<div class="batch-preview-pill"><span>${line}</span> &rarr; <strong>${tag}</strong></div>`;
+      }).join('');
+    }
+
+    function addBatchTeams() {
+      const lines = document.getElementById('batch-input').value.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      if (lines.length === 0) return alert('Ketik nama tim terlebih dahulu!');
+
+      lines.forEach(name => {
+        teams.push({
+          id: teams.length + 1,
+          name: name,
+          shortName: window.generateShortTag(name),
+          seed: teams.length + 1,
+          logo: ''
+        });
+      });
+
+      document.getElementById('batch-input').value = '';
+      document.getElementById('batch-preview-container').innerHTML = '';
+      renderTable();
+      saveTeamsToCloud();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('team-table-body');
+      document.getElementById('team-count').textContent = teams.length;
+
+      tbody.innerHTML = teams.map((team, idx) => `
+        <tr>
+          <td><strong style="color:var(--accent-mint);">#${team.seed || (idx+1)}</strong></td>
+          <td>
+            <div style="width:36px;height:36px;background:#181C28;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+              ${team.logo ? `<img src="${team.logo}" style="width:100%;height:100%;object-fit:contain;">` : `<span style="font-size:0.75rem;color:#8E9BAE;">${team.shortName.slice(0,2)}</span>`}
+            </div>
+          </td>
+          <td><strong>${team.name}</strong></td>
+          <td><span style="background:rgba(91,84,246,0.15);color:#B3AEFE;padding:4px 8px;border-radius:6px;font-weight:700;">${team.shortName}</span></td>
+          <td style="text-align:right;">
+            <input type="file" id="logo-file-${team.id}" style="display:none;" accept="image/*" onchange="uploadLogoToImageKit(${team.id}, this)">
+            <button class="card-action-btn" onclick="document.getElementById('logo-file-${team.id}').click()">Upload Logo</button>
+            <button class="btn-danger" style="margin-left:6px;" onclick="deleteTeam(${team.id})">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function uploadLogoToImageKit(teamId, input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const privKey = window.MPL_CONFIG.imagekitPrivateKey;
+
+      if (!privKey) {
+        // Fallback pakai Data URL lokal jika ImageKit Private Key belum dimasukkan
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const t = teams.find(x => x.id === teamId);
+          if (t) {
+            t.logo = e.target.result;
+            renderTable();
+            saveTeamsToCloud();
+          }
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // Upload langsung ke ImageKit.io REST API
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('fileName', `logo-${Date.now()}-${file.name}`);
+      formData.append('useUniqueFileName', 'true');
+
+      try {
+        const res = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Basic ' + btoa(privKey + ':')
+          },
+          body: formData
+        });
+        const data = await res.json();
+        if (data.url) {
+          const t = teams.find(x => x.id === teamId);
+          if (t) {
+            t.logo = data.url;
+            renderTable();
+            saveTeamsToCloud();
+            alert('Logo berhasil diupload ke ImageKit CDN: ' + data.url);
+          }
+        } else {
+          alert('Gagal upload ke ImageKit: ' + (data.message || JSON.stringify(data)));
+        }
+      } catch (err) {
+        alert('Gagal upload: ' + err.message);
+      }
+    }
+
+    function deleteTeam(id) {
+      teams = teams.filter(t => t.id !== id);
+      renderTable();
+      saveTeamsToCloud();
+    }
+
+    async function saveTeamsToCloud() {
+      localStorage.setItem('mpl_teams', JSON.stringify(teams));
+      await window.firebaseRest.put('teams', teams);
+    }
+
+    async function loadTeams() {
+      const cloudTeams = await window.firebaseRest.get('teams');
+      if (cloudTeams && Array.isArray(cloudTeams)) {
+        teams = cloudTeams;
+      } else {
+        const local = localStorage.getItem('mpl_teams');
+        if (local) {
+          try { teams = JSON.parse(local); } catch (e) {}
+        }
+      }
+      renderTable();
+    }
+
+    loadTeams();
+  </script>
+</body>
+</html>

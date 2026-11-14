@@ -1,0 +1,24 @@
+{
+  "youtube": {
+    "channelId": "",
+    "liveStreamId": "",
+    "apiKey": "",
+    "titleTemplate": "[LIVE] MPL TOURNAMENT - MATCH {MATCH_NO}: {TEAM_LEFT} VS {TEAM_RIGHT}",
+    "thumbnailFolder": "./thumbnails"
+  },
+  "firebase": {
+    "enabled": true,
+    "databaseUrl": "https://console.firebase.google.com/project/mplporssmada/database/mplporssmada-default-rtdb/data/~2F?fb_gclid=Cj0KCQiAh9vXBhDKARIsAMooYhck5cuMrwi1sU9rdm6NP41-TvzEHUzXJxkFkTrZKXlh2p4kVQ29Tp4aAtIYEALw_wcB&fb_utm_campaign=Cloud-SS-DR-Firebase-FY26-global-gsem-1713590&fb_utm_content=text-ad&fb_utm_medium=cpc&fb_utm_source=google&fb_utm_term=KW_firebase",
+    "authToken": ""
+  },
+  "imagekit": {
+    "enabled": true,
+    "publicKey": "public_/vYrAVyD2ZjvLLQMh0a9KBMOs74=",
+    "privateKey": "private_zQ/A4fSfZz6J8puYP4uQZ+lhLPA=",
+    "urlEndpoint": "https://ik.imagekit.io/84f9yxoe4"
+  },
+  "cloudflare": {
+    "publicUrl": "https://tournament-mpl.trycloudflare.com",
+    "tunnelStatus": "ONLINE"
+  }
+}

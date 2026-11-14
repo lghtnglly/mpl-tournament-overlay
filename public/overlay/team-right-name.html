@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>OBS - Team Right Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      filter: none !important;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .obs-text-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.1;
+    }
+    .obs-team-name {
+      color: #FFFFFF;
+      font-size: 3.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+    .obs-team-sub {
+      color: #FFFFFF;
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-top: 4px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+  </style>
+</head>
+<body>
+  <div class="obs-text-container">
+    <div class="obs-team-name" id="display-name">TIM KANAN</div>
+    <div class="obs-team-sub">SMADA</div>
+  </div>
+
+  <script src="/js/app-config.js"></script>
+  <script>
+    async function updateOverlay() {
+      let match = await window.firebaseRest.get('currentMatch');
+      if (!match) {
+        try {
+          const localTour = JSON.parse(localStorage.getItem('mpl_tournament') || '{}');
+          match = localTour.currentMatch;
+        } catch (e) {}
+      }
+
+      if (match && match.teamRight) {
+        const team = match.teamRight;
+        const formatted = window.formatTeamName(team.name || '', team.shortName || '');
+        document.getElementById('display-name').textContent = formatted || 'TIM KANAN';
+      }
+    }
+
+    setInterval(updateOverlay, 1000);
+    updateOverlay();
+  </script>
+</body>
+</html>
